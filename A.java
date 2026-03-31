@@ -323,3 +323,174 @@ const levels = {
     ]
 };
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar System</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #000 60%, #020b1a);
+    overflow: hidden;
+  }
+
+  .solar-system {
+    position: relative;
+    width: 400px;
+    height: 400px;
+  }
+
+  .sun {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, yellow, orange);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 40px orange;
+  }
+
+  .earth-orbit {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border: 1px dashed rgba(255,255,255,0.2);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: orbitEarth 10s linear infinite;
+  }
+
+  .earth {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: blue;
+    border-radius: 50%;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .moon-orbit {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border: 1px dashed rgba(255,255,255,0.2);
+    border-radius: 50%;
+    animation: orbitMoon 3s linear infinite;
+  }
+
+  .moon {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: gray;
+    border-radius: 50%;
+    top: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @keyframes orbitEarth {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  @keyframes orbitMoon {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .controls {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    gap: 10px;
+  }
+
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #222;
+    color: white;
+  }
+
+  button:hover {
+    background: #444;
+  }
+</style>
+</head>
+<body>
+
+<div class="solar-system" id="system">
+  <div class="sun"></div>
+
+  <div class="earth-orbit" id="earthOrbit">
+    <div class="earth">
+      <div class="moon-orbit" id="moonOrbit">
+        <div class="moon"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button onclick="speedUp()">Speed Up</button>
+  <button onclick="slowDown()">Slow Down</button>
+  <button onclick="pauseOrbit()">Pause</button>
+</div>
+
+<script>
+  let earthSpeed = 10;
+  let moonSpeed = 3;
+
+  function updateSpeed() {
+    document.getElementById("earthOrbit").style.animationDuration = earthSpeed + "s";
+    document.getElementById("moonOrbit").style.animationDuration = moonSpeed + "s";
+  }
+
+  function speedUp() {
+    earthSpeed = Math.max(2, earthSpeed - 2);
+    moonSpeed = Math.max(1, moonSpeed - 1);
+    updateSpeed();
+  }
+
+  function slowDown() {
+    earthSpeed += 2;
+    moonSpeed += 1;
+    updateSpeed();
+  }
+
+  function pauseOrbit() {
+    const earth = document.getElementById("earthOrbit");
+    const moon = document.getElementById("moonOrbit");
+
+    if (earth.style.animationPlayState === "paused") {
+      earth.style.animationPlayState = "running";
+      moon.style.animationPlayState = "running";
+    } else {
+      earth.style.animationPlayState = "paused";
+      moon.style.animationPlayState = "paused";
+    }
+  }
+
+  updateSpeed();
+</script>
+
+</body>
+</html>
